@@ -53,16 +53,14 @@ const Upsert = useUpsert({
 		{
 			label: "简介",
 			prop: "summary",
-			component: { name: "el-input", props: { type: "textarea", rows: 4 } },
-			required: true
+			component: { name: "el-input", props: { type: "textarea", rows: 4 } }
 		},
 		{
 			label: "特色内容",
 			prop: "featureContent",
-			component: { name: "el-input", props: { type: "textarea", rows: 4 } },
-			required: true
+			component: { name: "el-input", props: { type: "textarea", rows: 4 } }
 		},
-		{ label: "图片", prop: "images", component: { name: "cl-upload" }, required: true }
+		{ label: "图片", prop: "images", component: { name: "cl-upload" } }
 	]
 });
 

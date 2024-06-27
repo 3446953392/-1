@@ -28,7 +28,7 @@
 	</cl-crud>
 </template>
 
-<script lang="ts" name="base-schedule" setup>
+<script lang="ts" name="base-management" setup>
 import { useCrud, useTable, useUpsert } from "@cool-vue/crud";
 import { useCool } from "/@/cool";
 
@@ -38,30 +38,29 @@ const { service } = useCool();
 const Upsert = useUpsert({
 	items: [
 		{
-			label: "资源名称",
-			prop: "resourceName",
+			label: "基地名称",
+			prop: "name",
 			component: { name: "el-input", props: { clearable: true } },
 			required: true
 		},
 		{
-			label: "资源所属活动",
-			prop: "resourceActivity",
-			component: { name: "el-input", props: { clearable: true } },
+			label: "省市区",
+			prop: "pca",
+			hook: "pca",
+			component: { name: "cl-distpicker" },
 			required: true
 		},
 		{
-			label: "资源类型",
-			prop: "resourceType",
-			component: { name: "el-input", props: { clearable: true } },
-			required: true
+			label: "简介",
+			prop: "summary",
+			component: { name: "el-input", props: { type: "textarea", rows: 4 } }
 		},
 		{
-			label: "资源花费",
-			prop: "resourceCost",
-			hook: "number",
-			component: { name: "el-input-number" },
-			required: true
-		}
+			label: "特色内容",
+			prop: "featureContent",
+			component: { name: "el-input", props: { type: "textarea", rows: 4 } }
+		},
+		{ label: "图片", prop: "images", component: { name: "cl-upload" } }
 	]
 });
 
@@ -69,10 +68,23 @@ const Upsert = useUpsert({
 const Table = useTable({
 	columns: [
 		{ type: "selection" },
-		{ label: "资源名称", prop: "resourceName", minWidth: 140 },
-		{ label: "资源所属活动", prop: "resourceActivity", minWidth: 140 },
-		{ label: "资源类型", prop: "resourceType", minWidth: 140 },
-		{ label: "资源花费", prop: "resourceCost", minWidth: 140 },
+		{ label: "基地名称", prop: "name", minWidth: 140 },
+		{
+			label: "省市区",
+			prop: "province",
+			minWidth: 160,
+			formatter(row) {
+				return row.province + "-" + row.city + "-" + row.district;
+			}
+		},
+		{ label: "简介", prop: "summary", showOverflowTooltip: true, minWidth: 200 },
+		{ label: "特色内容", prop: "featureContent", showOverflowTooltip: true, minWidth: 200 },
+		{
+			label: "图片",
+			prop: "images",
+			minWidth: 100,
+			component: { name: "cl-image", props: { size: 60 } }
+		},
 		{
 			label: "创建时间",
 			prop: "createTime",
@@ -94,7 +106,7 @@ const Table = useTable({
 // cl-crud
 const Crud = useCrud(
 	{
-		service: service.base.schedule
+		service: service.base.management
 	},
 	(app) => {
 		app.refresh();
